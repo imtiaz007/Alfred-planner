@@ -1,14 +1,30 @@
 import React from "react";
+import Chip from "@material-ui/core/Chip";
+import Checkbox from "@material-ui/core/Checkbox";
 
 const TaskCard = () => {
+  const [checked, setChecked] = React.useState(true);
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+  };
   return (
     <div>
       {/* Replace with material ui cards */}
-      <div className="bg-white dark:bg-gray-800 shadow-md h-40 rounded-2xl p-4 my-2">
-        <label class="inline-flex items-center mt-3">
-          <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600" />
-          <span class="ml-2 text-gray-300">Task name</span>
-        </label>
+      <div className="bg-gray-300 rounded-md shadow-md my-5 px-5 py-5">
+        <div className="flex flex-row">
+          <p className="flex-grow">Complete the list view</p>
+          <Checkbox
+            checked={checked}
+            onChange={handleChange}
+            inputProps={{ "aria-label": "primary checkbox" }}
+          />
+        </div>
+        <div className="flex flex-row space-x-1">
+          <Chip size="small" label="Basic" color="secondary" />
+          <Chip size="small" label="Basic" color="secondary" />
+          <Chip size="small" label="Basic" color="secondary" />
+        </div>
       </div>
     </div>
   );
