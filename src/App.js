@@ -1,9 +1,13 @@
-import "./App.css";
+import AppHeader from "./AppHeader";
+import SearchBox from "./components/SearchBox";
+import TaskList from "./components/TaskList";
+import Workspace from "./components/Workspace";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">Task panel</header>
+    <div class="flex h-screen flex-col overflow-x-hidden overflow-y-hidden">
+      <AppHeader />
+      <Workspace />
     </div>
   );
 }
