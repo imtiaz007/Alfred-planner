@@ -1,13 +1,12 @@
-import React from "react";
-import AddTask from "./AddTask";
-import SearchBox from "./SearchBox";
-import TaskList from "./TaskList";
+import React from 'react';
+import cx from 'classnames';
+import AddTask from '../../../../components/AddTask';
+import TaskList from '../../../../components/TaskList';
 
-const WorkSpaceBody = () => {
-  return (
+const WorkSpaceBody = ({ className }) => (
+  <main className={cx('flex w-full', className)}>
     <div className="flex flex-col w-full">
       <div className="py-3 sticky">
-        {/* <SearchBox /> */}
         <AddTask />
       </div>
       <div className="overflow-x-hidden overflow-y-auto">
@@ -16,7 +15,7 @@ const WorkSpaceBody = () => {
         </div>
       </div>
     </div>
-  );
-};
+  </main>
+);
 
 export default WorkSpaceBody;
