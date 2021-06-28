@@ -1,12 +1,14 @@
 import React from 'react';
 import { RecoilRoot } from 'recoil';
-
+import { BrowserRouter as Router } from 'react-router-dom';
 import Workspace from './organisms/workspace';
 
 function App() {
   return (
     <RecoilRoot>
-      <Workspace />
+      <Router>
+        <Workspace />
+      </Router>
     </RecoilRoot>
   );
 }

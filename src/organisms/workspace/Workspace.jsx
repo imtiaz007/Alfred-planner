@@ -13,14 +13,14 @@ const Workspace = () => {
   const classes = useStyles();
 
   return (
-    <div className="flex">
+    <div className="flex h-screen">
       <CssBaseline />
-      <WorkspaceHeader className={cx(classes.appBar, { [classes.appBarShift]: isSidebarOpen })} />
       <Sidebar
         isSidebarOpen={isSidebarOpen}
         className={classes.drawer}
         classes={{ paper: classes.drawerPaper }}
       />
+      <WorkspaceHeader className={cx(classes.appBar, { [classes.appBarShift]: isSidebarOpen })} />
       <WorkSpaceBody className={cx(classes.content, { [classes.contentShift]: isSidebarOpen })} />
     </div>
   );
