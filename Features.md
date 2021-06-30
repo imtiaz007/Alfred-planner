@@ -1,0 +1,21 @@
+# Features
+
+- Notes
+    - Add Notes
+    - Filter notes based on lables
+    - Search through notes
+    - one click copy
+- Tasks
+    - Add Tasks and Sub tasks
+    - Filter tasks based on Lables
+    - Schedule tasks
+- Pomodor Timer
+    - Timer for Work/short break/long break
+    - block websites during that time
+- Highlight and add to notes - Chrome extension
+    - Highlight on anyweb page and add to notes
+    - Filter based on lables
+    - Implement OCR to copy from images/videos
+- Stats
+    - Tasks
+    - Pomodoro
