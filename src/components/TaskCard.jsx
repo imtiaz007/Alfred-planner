@@ -11,11 +11,12 @@ const TaskCard = () => {
   return (
     <div>
       {/* Replace with material ui cards */}
-      <div className="bg-gray-300 rounded-md shadow-md my-5 px-5 py-5">
+      <div className="rounded-md shadow-md my-5 px-5 py-5 bg-primary-main dark:bg-primary-dark">
         <div className="flex flex-row">
-          <p className="flex-grow">Complete the list view</p>
+          <p className="flex-grow text-primary-text">Complete the list view</p>
           <Checkbox
             checked={checked}
+            color="secondary"
             onChange={handleChange}
             inputProps={{ "aria-label": "primary checkbox" }}
           />
