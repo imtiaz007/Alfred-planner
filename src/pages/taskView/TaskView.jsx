@@ -1,6 +1,6 @@
-import React from 'react';
-import AddTask from '../../components/AddTask';
-import TaskList from '../../components/TaskList';
+import React from "react";
+import AddTask from "../../components/AddTask.jsx";
+import TaskList from "../../components/TaskList";
 
 const TaskView = () => (
   <div className="flex flex-col w-full">
