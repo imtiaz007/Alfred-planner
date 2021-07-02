@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
-import { useSetRecoilState } from 'recoil';
+import React from "react";
+import PropTypes from "prop-types";
+import cx from "classnames";
+import { useSetRecoilState } from "recoil";
 
-import { IconButton } from 'src/atoms/button';
-import { Menu } from '@icons';
-import AppBar from 'src/atoms/appBar';
-import { appSidebarState } from 'src/constants/stateAtoms';
+import { IconButton } from "src/atoms/button";
+import { Menu } from "@icons";
+import AppBar from "src/atoms/appBar";
+import { appSidebarState } from "src/constants/stateAtoms";
 
 const WorkspaceHeader = (props) => {
   const { title, className } = props;
@@ -18,14 +18,12 @@ const WorkspaceHeader = (props) => {
   };
 
   return (
-    <AppBar position="fixed" className={className}>
-      <div className={cx('flex items-center')}>
+    <AppBar position="fixed" color="primary" className={className}>
+      <div className={cx("flex items-center")}>
         <IconButton onClick={handleMenuClick}>
           <Menu />
         </IconButton>
-        <header>
-          {title}
-        </header>
+        <header>{title}</header>
       </div>
     </AppBar>
   );
@@ -36,7 +34,7 @@ WorkspaceHeader.propTypes = {
 };
 
 WorkspaceHeader.defaultProps = {
-  title: 'Tasks',
+  title: "Tasks",
 };
 
 export default WorkspaceHeader;

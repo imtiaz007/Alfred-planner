@@ -25,12 +25,14 @@ const TaskCard = () => {
           onChange={handleChange}
           inputProps={{ "aria-label": "primary checkbox" }}
         />
-        <p className="flex-grow self-center text-primary-text">
+        <p className="flex-1 self-center text-primary-text">
           Complete the list view
         </p>
-        <IconButton>
-          <MoreVertIcon />
-        </IconButton>
+        <span className="justify-self-end">
+          <IconButton>
+            <MoreVertIcon />
+          </IconButton>
+        </span>
       </div>
       <div className="flex flex-row space-x-1">
         <Chip size="small" label="Basic" color="secondary" />

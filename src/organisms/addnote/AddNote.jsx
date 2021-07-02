@@ -57,7 +57,7 @@ function getStyles(name, personName, theme) {
   };
 }
 
-const AddTask = () => {
+const AddNote = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
@@ -75,7 +75,7 @@ const AddTask = () => {
         <TextField
           id="standard-full-width"
           style={{ margin: 8 }}
-          placeholder="Add a task..."
+          placeholder="Add a Note..."
           fullWidth
           margin="normal"
         />
@@ -120,14 +120,9 @@ const AddTask = () => {
             </MenuItem>
           ))}
         </Select>
-        <span>
-          <IconButton>
-            <TodayIcon />
-          </IconButton>
-        </span>
       </div>
     </div>
   );
 };
 
-export default AddTask;
+export default AddNote;
