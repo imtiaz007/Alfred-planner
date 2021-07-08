@@ -16,6 +16,8 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { allTagsState, notesState } from "src/constants/stateAtoms";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -46,8 +48,6 @@ const MenuProps = {
   },
 };
 
-const names = ["Work", "Personal", "Home"];
-
 function getStyles(name, personName, theme) {
   return {
     fontWeight:
@@ -60,16 +60,39 @@ function getStyles(name, personName, theme) {
 const AddNote = () => {
   const classes = useStyles();
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
+  const [selectedTag, setSelectedTag] = React.useState([]);
+  const [noteText, setNoteText] = React.useState("");
+  let tagNames = useRecoilValue(allTagsState);
+  const addNote = useSetRecoilState(notesState);
 
   const handleChange = (event) => {
-    setPersonName(event.target.value);
+    setSelectedTag(event.target.value);
+    const index = tagNames.indexOf(event.target.value);
+    if (index > -1) {
+      tagNames.splice(index, 1);
+    }
+  };
+
+  const createNote = () => {
+    if (noteText === "") {
+      return;
+    }
+    addNote((oldNotesList) => [
+      {
+        id: oldNotesList.length + 1,
+        text: noteText,
+        tags: selectedTag,
+      },
+      ...oldNotesList,
+    ]);
+    setNoteText("");
+    setSelectedTag([]);
   };
 
   return (
     <div className="flex flex-col space-y-1 rounded-md shadow-md my-5 px-2 py-2 bg-primary-main dark:bg-primary-dark">
       <div className="flex flex-row">
-        <IconButton color="secondary">
+        <IconButton color="secondary" onClick={createNote}>
           <AddCircleIcon />
         </IconButton>
         <TextField
@@ -77,24 +100,32 @@ const AddNote = () => {
           style={{ margin: 8 }}
           placeholder="Add a Note..."
           fullWidth
+          required
+          value={noteText}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              createNote();
+            }
+          }}
           margin="normal"
+          onChange={(e) => setNoteText(e.target.value)}
         />
-        <IconButton>
+        {/* <IconButton>
           <MoreVertIcon />
-        </IconButton>
+        </IconButton> */}
       </div>
       <div className="flex flex-row space-x-1">
-        <InputLabel id="demo-mutiple-chip-label">Lables</InputLabel>
+        <InputLabel id="demo-mutiple-chip-label" className="self-center">
+          Tags
+        </InputLabel>
         <Select
           labelId="demo-mutiple-chip-label"
           id="demo-mutiple-chip"
           multiple
           fullWidth
-          value={personName}
+          value={selectedTag}
           onChange={handleChange}
-          input={
-            <Input id="select-multiple-chip" placeholder="Add a task..." />
-          }
+          input={<Input id="select-multiple-chip" />}
           renderValue={(selected) => (
             <div className={classes.chips}>
               {selected.map((value) => (
@@ -110,11 +141,11 @@ const AddNote = () => {
           )}
           MenuProps={MenuProps}
         >
-          {names.map((name) => (
+          {tagNames.map((name) => (
             <MenuItem
               key={name}
               value={name}
-              style={getStyles(name, personName, theme)}
+              style={getStyles(name, selectedTag, theme)}
             >
               {name}
             </MenuItem>
