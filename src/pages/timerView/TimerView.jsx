@@ -1,7 +1,10 @@
-import React from 'react';
+import React from "react";
+import TimerTabs from "src/organisms/timertabs";
 
 const TimerView = () => (
-  <div>Timer</div>
+  <div className="py-5 w-screen">
+    <TimerTabs />
+  </div>
 );
 
 export default TimerView;

@@ -20,4 +20,27 @@ const tasksState = atom({
   default: [],
 });
 
-export { appSidebarState, allTagsState, notesState, tasksState };
+const workTimeState = atom({
+  key: "_WORK_TIME",
+  default: 1800,
+});
+
+const shortBreakTimeState = atom({
+  key: "_SHORT_BREAK_TIME",
+  default: 600,
+});
+
+const longBreakTimeState = atom({
+  key: "_LONG_BREAK_TIME",
+  default: 1200,
+});
+
+export {
+  appSidebarState,
+  allTagsState,
+  notesState,
+  tasksState,
+  workTimeState,
+  shortBreakTimeState,
+  longBreakTimeState,
+};

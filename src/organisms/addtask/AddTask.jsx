@@ -107,12 +107,12 @@ const AddTask = () => {
           onChange={(e) => setTaskName(e.target.value)}
           margin="normal"
         />
-        <IconButton>
+        {/* <IconButton>
           <MoreVertIcon />
-        </IconButton>
+        </IconButton> */}
       </div>
       <div className="flex flex-row space-x-1">
-        <InputLabel id="demo-mutiple-chip-label" className="self-center">
+        <InputLabel id="demo-mutiple-chip-label" shrink className="self-center">
           Tags
         </InputLabel>
         <Select

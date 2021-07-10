@@ -62,15 +62,12 @@ const AddNote = () => {
   const theme = useTheme();
   const [selectedTag, setSelectedTag] = React.useState([]);
   const [noteText, setNoteText] = React.useState("");
+  const [tagMenuOpen, setTagMenuOpen] = React.useState(false);
   let tagNames = useRecoilValue(allTagsState);
   const addNote = useSetRecoilState(notesState);
 
   const handleChange = (event) => {
     setSelectedTag(event.target.value);
-    const index = tagNames.indexOf(event.target.value);
-    if (index > -1) {
-      tagNames.splice(index, 1);
-    }
   };
 
   const createNote = () => {
@@ -115,7 +112,7 @@ const AddNote = () => {
         </IconButton> */}
       </div>
       <div className="flex flex-row space-x-1">
-        <InputLabel id="demo-mutiple-chip-label" className="self-center">
+        <InputLabel id="demo-mutiple-chip-label" shrink className="self-center">
           Tags
         </InputLabel>
         <Select
@@ -123,7 +120,9 @@ const AddNote = () => {
           id="demo-mutiple-chip"
           multiple
           fullWidth
+          displayEmpty="true"
           value={selectedTag}
+          on
           onChange={handleChange}
           input={<Input id="select-multiple-chip" />}
           renderValue={(selected) => (
@@ -134,7 +133,7 @@ const AddNote = () => {
                   label={value}
                   color="secondary"
                   deleteIcon={<CancelIcon />}
-                  onDelete={handleChange}
+                  onDelete={() => console.log("h")}
                 />
               ))}
             </div>
