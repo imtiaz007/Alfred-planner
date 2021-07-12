@@ -18,6 +18,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { allTagsState, notesState } from "src/constants/stateAtoms";
+import useLocalStorage from "src/hooks/useLocalStorage";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -62,9 +63,12 @@ const AddNote = () => {
   const theme = useTheme();
   const [selectedTag, setSelectedTag] = React.useState([]);
   const [noteText, setNoteText] = React.useState("");
-  const [tagMenuOpen, setTagMenuOpen] = React.useState(false);
-  let tagNames = useRecoilValue(allTagsState);
+  const tagNames = useRecoilValue(allTagsState);
   const addNote = useSetRecoilState(notesState);
+  const [persistedNotesList, setPersistedNotesList] = useLocalStorage(
+    "notes",
+    []
+  );
 
   const handleChange = (event) => {
     setSelectedTag(event.target.value);
@@ -74,14 +78,19 @@ const AddNote = () => {
     if (noteText === "") {
       return;
     }
-    addNote((oldNotesList) => [
-      {
-        id: oldNotesList.length + 1,
-        text: noteText,
-        tags: selectedTag,
-      },
-      ...oldNotesList,
-    ]);
+    addNote((oldNotesList) => {
+      const newNotesList = [
+        {
+          id: oldNotesList.length + 1,
+          text: noteText,
+          tags: selectedTag,
+        },
+        ...oldNotesList,
+      ];
+      setPersistedNotesList(newNotesList);
+      return newNotesList;
+    });
+
     setNoteText("");
     setSelectedTag([]);
   };

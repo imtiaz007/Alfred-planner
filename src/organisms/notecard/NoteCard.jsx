@@ -5,13 +5,25 @@ import { Delete as DeleteIcon, Edit as EditIcon } from "@icons";
 import PropTypes from "prop-types";
 import { useSetRecoilState } from "recoil";
 import { notesState } from "src/constants/stateAtoms";
+import useLocalStorage from "src/hooks/useLocalStorage";
 
 const NoteCard = (props) => {
   const { text, tags, id } = props;
   const setNotes = useSetRecoilState(notesState);
+  const [persistedNotesList, setPersistedNotesList] = useLocalStorage(
+    "notes",
+    []
+  );
+
   const deleteNote = () => {
-    setNotes((oldNotes) => oldNotes.filter((note) => note.id !== id));
+    let newNotesList;
+    setNotes((oldNotes) => {
+      newNotesList = oldNotes.filter((note) => note.id !== id);
+      return newNotesList;
+    });
+    setPersistedNotesList(newNotesList);
   };
+
   return (
     <div className="flex flex-col space-y-1 rounded-md shadow-md my-5 px-2 py-2 bg-primary-main dark:bg-primary-dark">
       <div className="flex flex-row">

@@ -12,10 +12,15 @@ import {
 import PropTypes from "prop-types";
 import { useSetRecoilState } from "recoil";
 import { tasksState } from "src/constants/stateAtoms";
+import useLocalStorage from "src/hooks/useLocalStorage";
 
 const TaskCard = (props) => {
   const { name, id, tags, isCompleted } = props;
   const updateTasks = useSetRecoilState(tasksState);
+  const [persistedTasksList, setPersistedTasksList] = useLocalStorage(
+    "tasks",
+    []
+  );
   const handleChange = () => {
     updateTasks((oldTaskList) => {
       const toChange = oldTaskList.findIndex((task) => task.id === id);
@@ -24,12 +29,17 @@ const TaskCard = (props) => {
         ...newTaskList[toChange],
         isCompleted: !newTaskList[toChange].isCompleted,
       };
+      setPersistedTasksList(newTaskList);
       return newTaskList;
     });
   };
 
   const removeTask = () => {
-    updateTasks((oldTaskList) => oldTaskList.filter((task) => task.id !== id));
+    updateTasks((oldTaskList) => {
+      const newTaskList = oldTaskList.filter((task) => task.id !== id);
+      setPersistedTasksList(newTaskList);
+      return newTaskList;
+    });
   };
 
   return (

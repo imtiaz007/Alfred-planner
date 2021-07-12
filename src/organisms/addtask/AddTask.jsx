@@ -19,6 +19,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { allTagsState, tasksState } from "src/constants/stateAtoms";
+import useLocalStorage from "src/hooks/useLocalStorage";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -64,7 +65,12 @@ const AddTask = () => {
   const [taskName, setTaskName] = React.useState("");
   const [selectedTag, setSelectedTag] = React.useState([]);
   let tagNames = useRecoilValue(allTagsState);
-  const AddTask = useSetRecoilState(tasksState);
+  const addTask = useSetRecoilState(tasksState);
+
+  const [persistedTasksList, setPersistedTasksList] = useLocalStorage(
+    "tasks",
+    []
+  );
 
   const handleChange = (event) => {
     setSelectedTag(event.target.value);
@@ -74,15 +80,19 @@ const AddTask = () => {
     if (taskName === "") {
       return;
     }
-    AddTask((oldTaskList) => [
-      {
-        id: oldTaskList.length + 1,
-        name: taskName,
-        tags: selectedTag,
-        isCompleted: false,
-      },
-      ...oldTaskList,
-    ]);
+    addTask((oldTaskList) => {
+      const newTaskList = [
+        {
+          id: oldTaskList.length + 1,
+          name: taskName,
+          tags: selectedTag,
+          isCompleted: false,
+        },
+        ...oldTaskList,
+      ];
+      setPersistedTasksList(newTaskList);
+      return newTaskList;
+    });
     setTaskName("");
     setSelectedTag([]);
   };
