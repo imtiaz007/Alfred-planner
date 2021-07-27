@@ -1,8 +1,8 @@
-import React from "react";
-import TimerTabs from "src/organisms/timertabs";
+import React from 'react';
+import TimerTabs from 'src/organisms/timertabs';
 
 const TimerView = () => (
-  <div className="py-5 w-screen">
+  <div className='py-5 w-full'>
     <TimerTabs />
   </div>
 );

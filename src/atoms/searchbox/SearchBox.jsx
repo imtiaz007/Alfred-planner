@@ -1,23 +1,13 @@
-import React from "react";
-import TextField from "@material-ui/core/TextField";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import { SearchRounded } from "@icons";
+import React from 'react';
+import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import { SearchRounded } from '@icons';
 
 const SearchBox = () => (
-  <TextField
-    id="input-with-icon-textfield"
-    label="Search.."
-    variant="outlined"
-    color="primary"
-    size="small"
-    fullWidth
-    InputProps={{
-      endAdornment: (
-        <InputAdornment position="end">
-          <SearchRounded color="secondary" />
-        </InputAdornment>
-      ),
-    }}
+  <input
+    type='search'
+    class=' w-full px-2 py-2 bg-background-800 text-text-400 rounded-md focus:ring-4 focus:ring-primary-500'
+    placeholder='Search'
   />
 );
 

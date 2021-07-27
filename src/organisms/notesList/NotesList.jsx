@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
-import NoteCard from "src/organisms/notecard";
-import { notesState } from "src/constants/stateAtoms";
-import { useRecoilState, useRecoilValue } from "recoil";
-import useLocalStorage from "src/hooks/useLocalStorage";
+import React, { useEffect } from 'react';
+import NoteCard from 'src/organisms/notecard';
+import { notesState } from 'src/constants/stateAtoms';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import useLocalStorage from 'src/hooks/useLocalStorage';
 
 const NotesList = () => {
   const [allNotes, setNotes] = useRecoilState(notesState);
   const [persistedNotesList, setPersistedNotesList] = useLocalStorage(
-    "notes",
+    'notes',
     []
   );
   useEffect(() => {
@@ -21,7 +21,7 @@ const NotesList = () => {
           text={note.text}
           tags={note.tags}
           id={note.id}
-          key={note.id}
+          key={note.text}
         />
       ))}
     </>

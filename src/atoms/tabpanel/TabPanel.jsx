@@ -1,14 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
+      id={`scrollable-auto-tabpanel-${index}`}
+      aria-labelledby={`scrollable-auto-tab-${index}`}
+      className='w-full'
       {...other}
     >
       {value === index && <>{children}</>}

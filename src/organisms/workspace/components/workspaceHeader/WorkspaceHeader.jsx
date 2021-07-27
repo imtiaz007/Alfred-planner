@@ -1,40 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import cx from "classnames";
-import { useSetRecoilState } from "recoil";
-
-import { IconButton } from "src/atoms/button";
-import { Menu } from "@icons";
-import AppBar from "src/atoms/appBar";
-import { appSidebarState } from "src/constants/stateAtoms";
+import React from 'react';
 
 const WorkspaceHeader = (props) => {
-  const { title, className } = props;
-
-  const setIsOpen = useSetRecoilState(appSidebarState);
-
-  const handleMenuClick = () => {
-    setIsOpen((isOpen) => !isOpen);
-  };
-
-  return (
-    <AppBar position="fixed" color="primary" className={className}>
-      <div className={cx("flex items-center")}>
-        <IconButton onClick={handleMenuClick}>
-          <Menu />
-        </IconButton>
-        <header>{title}</header>
-      </div>
-    </AppBar>
-  );
-};
-
-WorkspaceHeader.propTypes = {
-  title: PropTypes.string,
-};
-
-WorkspaceHeader.defaultProps = {
-  title: "Tasks",
+  return <div className='bg-blue-100 h-10'>Top nav</div>;
 };
 
 export default WorkspaceHeader;
