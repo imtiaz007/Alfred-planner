@@ -1,3 +1,6 @@
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { tasksState } from 'src/constants/stateAtoms.js';
@@ -14,7 +17,7 @@ const TaskList = () => {
   );
   useEffect(() => {
     setTasks(persistedTasksList);
-  }, []);
+  });
 
   const completedTasks = tasks.filter((task) => task.isCompleted);
   const inCompleteTasks = tasks.filter((task) => !task.isCompleted);
@@ -37,6 +40,7 @@ const TaskList = () => {
             name={task.name}
             tags={task.tags}
             isCompleted={task.isCompleted}
+            key={task.name + task.id}
           />
         ))
       ) : (

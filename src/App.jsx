@@ -4,7 +4,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Workspace from './organisms/workspace';
 import MaterialTheme from './MaterialTheme';
 import { ToastContainer } from 'react-toastify';
-
 import 'react-toastify/dist/ReactToastify.min.css';
 
 function App() {
@@ -13,7 +12,7 @@ function App() {
       <RecoilRoot>
         <Router>
           <ToastContainer
-            position='top-right'
+            position="top-right"
             autoClose={5000}
             hideProgressBar={false}
             newestOnTop={false}
