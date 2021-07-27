@@ -1,6 +1,6 @@
 import React from 'react';
 
-import WorkspaceHeader from './components/workspaceHeader';
+// import WorkspaceHeader from './components/workspaceHeader';
 import WorkSpaceBody from './components/workspaceBody';
 import Sidebar from '../sidebar';
 

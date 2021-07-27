@@ -11,13 +11,11 @@ import { ReactComponent as TodoSvg } from 'src/assets/todo.svg';
 
 const TaskList = () => {
   const [tasks, setTasks] = useRecoilState(tasksState);
-  const [persistedTasksList, setPersistedTasksList] = useLocalStorage(
-    'tasks',
-    []
-  );
+  const [persistedTasksList] = useLocalStorage('tasks', []);
   useEffect(() => {
     setTasks(persistedTasksList);
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const completedTasks = tasks.filter((task) => task.isCompleted);
   const inCompleteTasks = tasks.filter((task) => !task.isCompleted);

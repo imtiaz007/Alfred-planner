@@ -1,7 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
-import Chip from 'src/atoms/chip';
-import { IconButton } from 'src/atoms/button';
-import { Delete as DeleteIcon, Edit as EditIcon } from '@icons';
+import { Delete as DeleteIcon } from '@icons';
 import PropTypes from 'prop-types';
 import { useSetRecoilState } from 'recoil';
 import { notesState } from 'src/constants/stateAtoms';

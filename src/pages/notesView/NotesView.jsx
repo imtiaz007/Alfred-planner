@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchBox from 'src/atoms/searchbox';
+// import SearchBox from 'src/atoms/searchbox';
 import AddNote from 'src/organisms/addnote';
 import NotesList from 'src/organisms/notesList';
 

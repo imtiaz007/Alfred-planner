@@ -1,13 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 
-import Chip from 'src/atoms/chip';
-import { IconButton } from 'src/atoms/button';
-import {
-  MoreVert as MoreVertIcon,
-  AddCircle as AddCircleIcon,
-  Cancel as CancelIcon,
-  Today as TodayIcon,
-} from '@icons';
+import { AddCircle as AddCircleIcon } from '@icons';
 import TextField from 'src/atoms/textfield';
 
 import { useRecoilValue, useSetRecoilState } from 'recoil';

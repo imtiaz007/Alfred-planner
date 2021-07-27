@@ -12,7 +12,7 @@ function App() {
       <RecoilRoot>
         <Router>
           <ToastContainer
-            position="top-right"
+            position='top-right'
             autoClose={5000}
             hideProgressBar={false}
             newestOnTop={false}
