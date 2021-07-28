@@ -10,10 +10,11 @@ import { ReactComponent as AllDoneSvg } from 'src/assets/allDone.svg';
 import { ReactComponent as TodoSvg } from 'src/assets/todo.svg';
 import { sub, add } from 'date-fns';
 
-const TaskList = ({ dateFilterValue }) => {
+const TaskList = ({ dateFilterValue, tagFilterValues }) => {
   const [allTasks, setAllTasks] = useRecoilState(tasksState);
   const [tasks, setTasks] = React.useState(allTasks);
   const [persistedTasksList] = useLocalStorage('tasks', []);
+  console.log({ tagFilterValues });
 
   useEffect(() => {
     setAllTasks(persistedTasksList);
@@ -23,27 +24,35 @@ const TaskList = ({ dateFilterValue }) => {
   useEffect(() => {
     const today = new Date();
     if (dateFilterValue === 'today') {
-      setTasks(
-        allTasks.filter(
-          (task) => new Date(task.date).getDate() === today.getDate()
-        )
+      const withDateFilter = allTasks.filter(
+        (task) => new Date(task.date).getDate() === today.getDate()
       );
+      const withTagFilter = withDateFilter.filter(({ tags }) =>
+        tags.some((val) => tagFilterValues.includes(val))
+      );
+      setTasks(withTagFilter);
     } else if (dateFilterValue === 'yesterday') {
       const yesterday = sub(today, { days: 1 });
-      setTasks(
-        allTasks.filter(
-          (task) => new Date(task.date).getDate() === yesterday.getDate()
-        )
+      const withDateFilter = allTasks.filter(
+        (task) => new Date(task.date).getDate() === yesterday.getDate()
       );
+      const withTagFilter = withDateFilter.filter(({ tags }) =>
+        tags.some((val) => tagFilterValues.includes(val))
+      );
+
+      setTasks(withTagFilter);
     } else {
       const tomorrow = add(today, { days: 1 });
-      setTasks(
-        allTasks.filter(
-          (task) => new Date(task.date).getDate() === tomorrow.getDate()
-        )
+      const withDateFilter = allTasks.filter(
+        (task) => new Date(task.date).getDate() === tomorrow.getDate()
       );
+      const withTagFilter = withDateFilter.filter(({ tags }) =>
+        tags.some((val) => tagFilterValues.includes(val))
+      );
+
+      setTasks(withTagFilter);
     }
-  }, [dateFilterValue, allTasks]);
+  }, [dateFilterValue, tagFilterValues, allTasks]);
 
   const completedTasks = tasks.filter((task) => task.isCompleted);
   const inCompleteTasks = tasks.filter((task) => !task.isCompleted);
@@ -77,7 +86,12 @@ const TaskList = ({ dateFilterValue }) => {
           <AllDoneSvg className='w-full h-1/4 px-10 mt-5' />
         </div>
       )}
-      <hr className='text-primary-500 text-opacity-50 w-2/3 mx-auto mt-6 mb-12' />
+      {completedTasks.length > 0 ? (
+        <hr className='text-primary-500 text-opacity-50 w-2/3 mx-auto mt-6 mb-12' />
+      ) : (
+        ''
+      )}
+
       {completedTasks.map((task) => (
         <TaskCard
           id={task.id}

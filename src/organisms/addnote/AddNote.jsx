@@ -9,7 +9,7 @@ import { allTagsState, notesState } from 'src/constants/stateAtoms';
 import useLocalStorage from 'src/hooks/useLocalStorage';
 import Multiselect from 'multiselect-react-dropdown';
 
-const AddNote = () => {
+const AddNote = ({ onTagFilterChange, tagFilterValues }) => {
   const [selectedTag, setSelectedTag] = React.useState([]);
   const [noteText, setNoteText] = React.useState('');
   const tagNames = useRecoilValue(allTagsState);
@@ -59,16 +59,31 @@ const AddNote = () => {
         >
           <AddCircleIcon fontSize='large' />
         </button>
-        {/* <div className='space-x-2'>
+        <div className='flex space-x-2'>
           {tagNames.map((tag) => (
-            <span
-              className='bg-primary-700 text-text-200 p-1 px-2 rounded-xl text-sm font-medium'
+            <button
+              type='button'
+              id={tag}
+              value={tag}
+              onClick={(e) => {
+                onTagFilterChange(e.target.value);
+              }}
+              className={`flex items-center border border-primary-700 text-text-200 p-1 px-2 rounded-xl text-sm font-medium focus:outline-none hover:bg-primary-700 ${
+                tagFilterValues.includes(tag) ? 'bg-primary-700' : ''
+              }`}
               key={tag}
             >
               {tag}
-            </span>
+              {/* {tagFilterValues.includes(tag) ? (
+                <i value={tag} className='ml-1'>
+                  <CancelIcon fontSize='small' />
+                </i>
+              ) : (
+                ''
+              )} */}
+            </button>
           ))}
-        </div> */}
+        </div>
       </div>
       <div className={showForm ? '' : 'hidden'}>
         <div className='flex flex-row'>

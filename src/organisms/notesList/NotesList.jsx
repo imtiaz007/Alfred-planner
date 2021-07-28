@@ -5,18 +5,26 @@ import { useRecoilState } from 'recoil';
 import useLocalStorage from 'src/hooks/useLocalStorage';
 import { ReactComponent as AddNoteSvg } from 'src/assets/addNote.svg';
 
-const NotesList = () => {
-  const [allNotes, setNotes] = useRecoilState(notesState);
+const NotesList = ({ tagFilterValues }) => {
+  const [allNotes, setAllNotes] = useRecoilState(notesState);
+  const [notes, setNotes] = React.useState(allNotes);
   const [persistedNotesList] = useLocalStorage('notes', []);
   useEffect(() => {
-    setNotes(persistedNotesList);
+    setAllNotes(persistedNotesList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    const withTagFilter = allNotes.filter(({ tags }) =>
+      tags.some((val) => tagFilterValues.includes(val))
+    );
+    setNotes(withTagFilter);
+  }, [tagFilterValues, allNotes]);
+
   return (
     <>
-      {allNotes.length !== 0 ? (
-        allNotes.map((note) => (
+      {notes.length !== 0 ? (
+        notes.map((note) => (
           <NoteCard
             text={note.text}
             tags={note.tags}
