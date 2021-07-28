@@ -1,42 +1,36 @@
-import { atom } from "recoil";
-
-const appSidebarState = atom({
-  key: "_APP_SIDEBAR_STATE",
-  default: false,
-});
+import { atom } from 'recoil';
 
 const allTagsState = atom({
-  key: "_ALL_TAGS",
-  default: ["Work", "Personal", "Home"],
+  key: '_ALL_TAGS',
+  default: ['Work', 'Personal', 'Home'],
 });
 
 const notesState = atom({
-  key: "_NOTES",
+  key: '_NOTES',
   default: [],
 });
 
 const tasksState = atom({
-  key: "_TASKS",
+  key: '_TASKS',
   default: [],
 });
 
 const workTimeState = atom({
-  key: "_WORK_TIME",
+  key: '_WORK_TIME',
   default: 1800,
 });
 
 const shortBreakTimeState = atom({
-  key: "_SHORT_BREAK_TIME",
+  key: '_SHORT_BREAK_TIME',
   default: 600,
 });
 
 const longBreakTimeState = atom({
-  key: "_LONG_BREAK_TIME",
+  key: '_LONG_BREAK_TIME',
   default: 1200,
 });
 
 export {
-  appSidebarState,
   allTagsState,
   notesState,
   tasksState,

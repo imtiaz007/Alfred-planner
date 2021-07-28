@@ -13,7 +13,7 @@ module.exports = {
     },
   },
   variants: {
-    extend: { textOpacity: ['dark'] },
+    extend: { textOpacity: ['dark'], textColor: ['visited'] },
   },
   plugins: [require('@tailwindcss/forms')],
 };

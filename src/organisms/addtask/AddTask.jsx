@@ -7,6 +7,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { allTagsState, tasksState } from 'src/constants/stateAtoms';
 import useLocalStorage from 'src/hooks/useLocalStorage';
 import Multiselect from 'multiselect-react-dropdown';
+import { format } from 'date-fns';
 
 const AddTask = () => {
   const [taskName, setTaskName] = React.useState('');
@@ -20,7 +21,8 @@ const AddTask = () => {
   );
   const [showForm, setShowForm] = React.useState(false);
   const multiselectRef = React.useRef();
-
+  const today = format(new Date(), 'yyyy-MM-dd');
+  const [taskDate, setTaskDate] = React.useState(today);
   const createTask = () => {
     if (!showForm) {
       setShowForm(!showForm);
@@ -35,6 +37,7 @@ const AddTask = () => {
           id: oldTaskList.length + 1,
           name: taskName,
           tags: selectedTag,
+          date: taskDate,
           isCompleted: false,
         },
         ...oldTaskList,
@@ -49,12 +52,25 @@ const AddTask = () => {
   };
 
   return (
-    <div className='flex flex-col space-y-1 rounded-md shadow-md my-5 px-2'>
-      <div>
-        {/* chips buttons to filter tasks by tags */}
-        <button type='button' className='text-primary-500' onClick={createTask}>
+    <div className='flex flex-col space-y-1 rounded-md shadow-md my-5 px-2 py-2'>
+      <div className='flex space-x-2 items-center'>
+        <button
+          type='button'
+          className={`text-primary-500 ${showForm ? 'hidden' : ''}`}
+          onClick={() => setShowForm(!showForm)}
+        >
           <AddCircleIcon fontSize='large' />
         </button>
+        {/* <div className='space-x-2'>
+          {tagNames.map((tag) => (
+            <span
+              className='bg-primary-700 text-text-200 p-1 px-2 rounded-xl text-sm font-medium'
+              key={tag}
+            >
+              {tag}
+            </span>
+          ))}
+        </div> */}
       </div>
       <div className={showForm ? '' : 'hidden'}>
         <div className='flex flex-row'>
@@ -97,11 +113,32 @@ const AddTask = () => {
               },
             }}
           />
-          {/* <span>
-            <IconButton>
-              <TodayIcon />
-            </IconButton>
-          </span> */}
+        </div>
+        <div className='flex flex-row justify-between items-center  mt-2 '>
+          <input
+            type='date'
+            name='data'
+            min={today}
+            value={taskDate}
+            onChange={(e) => setTaskDate(e.target.value)}
+            className='w-auto rounded-md bg-background-800 text-text-300'
+          />
+          <div className='space-x-2'>
+            <button
+              type='button'
+              onClick={createTask}
+              className='py-1 px-2 bg-primary-600 text-text-300 rounded-md'
+            >
+              Add
+            </button>
+            <button
+              type='button'
+              onClick={() => setShowForm(!showForm)}
+              className='py-1 px-2 bg-primary-600 text-text-300 rounded-md'
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       </div>
     </div>

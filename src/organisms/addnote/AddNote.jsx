@@ -51,10 +51,24 @@ const AddNote = () => {
 
   return (
     <div className='flex flex-col space-y-1 rounded-md shadow-md my-5 px-2 py-2 '>
-      <div>
-        <button type='button' className='text-primary-500' onClick={createNote}>
+      <div className='flex space-x-2 items-center'>
+        <button
+          type='button'
+          className={`text-primary-500 ${showForm ? 'hidden' : ''}`}
+          onClick={() => setShowForm(!showForm)}
+        >
           <AddCircleIcon fontSize='large' />
         </button>
+        {/* <div className='space-x-2'>
+          {tagNames.map((tag) => (
+            <span
+              className='bg-primary-700 text-text-200 p-1 px-2 rounded-xl text-sm font-medium'
+              key={tag}
+            >
+              {tag}
+            </span>
+          ))}
+        </div> */}
       </div>
       <div className={showForm ? '' : 'hidden'}>
         <div className='flex flex-row'>
@@ -92,6 +106,22 @@ const AddNote = () => {
               searchBox: { borderColor: '#4F46E5' },
             }}
           />
+        </div>
+        <div className='space-x-2 mt-2'>
+          <button
+            type='button'
+            onClick={createNote}
+            className='py-1 px-2 bg-primary-600 text-text-300 rounded-md'
+          >
+            Add
+          </button>
+          <button
+            type='button'
+            onClick={() => setShowForm(!showForm)}
+            className='py-1 px-2 bg-primary-600 text-text-300 rounded-md'
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </div>
