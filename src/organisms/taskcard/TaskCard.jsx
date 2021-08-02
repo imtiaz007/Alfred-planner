@@ -38,11 +38,11 @@ const TaskCard = (props) => {
   };
 
   return (
-    <div className="flex flex-col space-y-1 rounded-md shadow-md my-5 px-2 py-2 ">
-      <div className="flex flex-row">
+    <div className='flex flex-col space-y-1 rounded-md shadow-md my-5 px-2 py-2 '>
+      <div className='flex flex-row'>
         <input
-          type="checkbox"
-          className="form-checkbox m-3 h-5 w-5 text-primary-600 rounded-sm bg-background-400"
+          type='checkbox'
+          className='form-checkbox m-3 h-5 w-5 text-primary-600 rounded-sm bg-background-400'
           checked={isCompleted}
           onChange={handleChange}
         />
@@ -53,23 +53,23 @@ const TaskCard = (props) => {
         >
           {name}
         </p>
-        <span className="justify-self-end">
+        <span className='justify-self-end'>
           <button
-            type="button"
-            className="text-primary-600"
+            type='button'
+            className='text-primary-600'
             onClick={removeTask}
           >
             <DeleteIcon />
           </button>
         </span>
       </div>
-      <div className="flex flex-row space-x-1">
-        {tags.map((tag, i) => (
+      <div className='flex flex-row space-x-1'>
+        {tags.map(({ label }) => (
           <span
-            className="bg-primary-700 text-text-200 p-1 px-2 rounded-xl text-xs font-medium"
-            key={i}
+            className='bg-primary-700 text-text-200 p-1 px-2 rounded-xl text-xs font-medium'
+            key={label}
           >
-            {tag}
+            {label}
           </span>
         ))}
       </div>

@@ -1,6 +1,10 @@
 import React from 'react';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import { toast } from 'react-toastify';
+import useSound from 'use-sound';
+import timerStartSfx from 'src/assets/sounds/timerStart.mp3';
+import dingNotifySfx from 'src/assets/sounds/dingNotification.mp3';
+
 import { IconButton } from 'src/atoms/button';
 import {
   Restore as ResetIcon,
@@ -11,6 +15,24 @@ const Timer = (props) => {
   const { msg, time, toastMsg } = props;
   const [timerRunning, setTimerRunning] = React.useState(false);
   const [timerKey, setTimerKey] = React.useState(0);
+  const [playTimerStartSfx] = useSound(timerStartSfx, { volume: 0.2 });
+  const [playNotifySfx] = useSound(dingNotifySfx, { volume: 0.2 });
+
+  const sendNotification = () => {
+    playNotifySfx();
+    toast.dark(toastMsg, {
+      position: 'bottom-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    setTimerKey(timerKey + 1);
+    setTimerRunning(false);
+    return [false, 1000];
+  };
 
   const renderTime = ({ remainingTime }) => {
     let displayTime = 0;
@@ -43,10 +65,22 @@ const Timer = (props) => {
   return (
     <div className='flex flex-col items-center h-auto'>
       <div className='py-5 space-x-5'>
-        <IconButton color='secondary' onClick={() => setTimerRunning(true)}>
+        <IconButton
+          color='secondary'
+          onClick={() => {
+            playTimerStartSfx();
+            setTimerRunning(true);
+          }}
+        >
           <StartIcon style={{ fontSize: 35 }} />
         </IconButton>
-        <IconButton color='secondary' onClick={() => setTimerRunning(false)}>
+        <IconButton
+          color='secondary'
+          onClick={() => {
+            playTimerStartSfx();
+            setTimerRunning(false);
+          }}
+        >
           <PauseIcon style={{ fontSize: 35 }} />
         </IconButton>
         <IconButton color='secondary' onClick={() => setTimerKey(timerKey + 1)}>
@@ -61,18 +95,7 @@ const Timer = (props) => {
           strokeWidth={25}
           size={250}
           colors={[['#8B5CF6', 0.5], ['#F7B801', 0.5], ['#A30000']]}
-          onComplete={() => {
-            toast.dark(toastMsg, {
-              position: 'bottom-right',
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-            return [false, 1000];
-          }}
+          onComplete={sendNotification}
         >
           {renderTime}
         </CountdownCircleTimer>

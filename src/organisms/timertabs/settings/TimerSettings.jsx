@@ -14,10 +14,11 @@ const TimerSettings = () => {
     useRecoilState(shortBreakTimeState);
   const [longBreakTime, setLongBreakTime] = useRecoilState(longBreakTimeState);
   return (
-    <div className='flex flex-col px-10 sm:w-2/5 mx-auto mt-12 space-y-10'>
+    <div className='flex flex-col px-10 sm:max-w-md mt-12 space-y-10'>
       <div className=''>
         <Slider
           defaultValue={Math.floor(workTime / 60)}
+          // valueLabelFormat={'Work for ' + Math.floor(workTime / 60) + 'Mins'}
           onChange={(e, value) => setWorkTime(value * 60)}
           marks={[
             { value: 20, label: '20 Mins' },

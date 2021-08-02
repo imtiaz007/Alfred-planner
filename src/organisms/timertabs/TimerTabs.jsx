@@ -3,8 +3,6 @@ import Tabs from 'src/atoms/tabview';
 import Tab from 'src/atoms/tab';
 import TabPanel from 'src/atoms/tabpanel';
 import Timer from './timer';
-import TimerSettings from './settings/TimerSettings';
-import { Settings as SettingsIcon } from '@icons';
 import { useRecoilValue } from 'recoil';
 import {
   longBreakTimeState,
@@ -47,11 +45,6 @@ const TimerTabs = () => {
           id='scrollable-auto-tab-tab-2'
           aria-controls='scrollable-auto-tab-tabpanel-2'
         />
-        <Tab
-          icon={<SettingsIcon />}
-          id='scrollable-auto-tab-tab-3'
-          aria-controls='scrollable-auto-tab-tabpanel-3'
-        />
       </Tabs>
       <TabPanel value={value} index={0}>
         <Timer
@@ -73,9 +66,6 @@ const TimerTabs = () => {
           toastMsg='Get to work!'
           time={longBreakTime}
         />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <TimerSettings />
       </TabPanel>
     </div>
   );

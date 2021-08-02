@@ -38,12 +38,12 @@ const NoteCard = (props) => {
         </span>
       </div>
       <div className='flex flex-row space-x-1'>
-        {tags.map((tag, i) => (
+        {tags.map(({ label }) => (
           <span
             className='bg-primary-700 text-text-200 p-1 px-2 rounded-xl text-xs font-medium'
-            key={i}
+            key={label}
           >
-            {tag}
+            {label}
           </span>
         ))}
       </div>

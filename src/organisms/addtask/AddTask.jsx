@@ -1,28 +1,35 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { AddCircle as AddCircleIcon, HighlightOff as CancelIcon } from '@icons';
 import TextField from 'src/atoms/textfield';
 
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { allTagsState, tasksState } from 'src/constants/stateAtoms';
 import useLocalStorage from 'src/hooks/useLocalStorage';
-import Multiselect from 'multiselect-react-dropdown';
 import { format } from 'date-fns';
 
-const AddTask = ({ onTagFilterChange, tagFilterValues }) => {
-  const [taskName, setTaskName] = React.useState('');
-  const [selectedTag, setSelectedTag] = React.useState([]);
-  let tagNames = useRecoilValue(allTagsState);
-  const addTask = useSetRecoilState(tasksState);
+import CreatableSelect from 'react-select/creatable';
+import customStyles from 'src/constants/MultiSelectStyles';
 
+const AddTask = ({ onTagFilterChange, tagFilterValues }) => {
+  const [tagNames, setTagNames] = useRecoilState(allTagsState);
+  const addTask = useSetRecoilState(tasksState);
   const [persistedTasksList, setPersistedTasksList] = useLocalStorage(
     'tasks',
     []
   );
-  const [showForm, setShowForm] = React.useState(false);
-  const multiselectRef = React.useRef();
+  const [persistedTags, setPersistedTags] = useLocalStorage('tags', tagNames);
+  const [taskName, setTaskName] = useState('');
+  const [selectedTag, setSelectedTag] = useState([]);
+  const [showForm, setShowForm] = useState(false);
   const today = format(new Date(), 'yyyy-MM-dd');
-  const [taskDate, setTaskDate] = React.useState(today);
+  const [taskDate, setTaskDate] = useState(today);
+
+  useEffect(() => {
+    setTagNames(persistedTags);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const createTask = () => {
     if (!showForm) {
       setShowForm(!showForm);
@@ -48,7 +55,32 @@ const AddTask = ({ onTagFilterChange, tagFilterValues }) => {
     setTaskName('');
     setSelectedTag([]);
     setShowForm(!showForm);
-    multiselectRef.current.resetSelectedValues();
+  };
+
+  const handleTagChange = (newValue, actionMeta) => {
+    if (actionMeta.action === 'create-option') {
+      const toAdd = newValue.filter((tag) => tag.__isNew__);
+      setTagNames((oldTags) => {
+        const newTags = [
+          ...oldTags,
+          { label: toAdd[0].label, value: toAdd[0].value, show: true },
+        ];
+        setPersistedTags(newTags);
+        return newTags;
+      });
+    }
+    setSelectedTag(newValue);
+  };
+
+  const handelTagFilterChange = (e) => {
+    let toAdd = JSON.parse(e.currentTarget.value);
+    toAdd.show = !toAdd.show;
+    setTagNames((oldTags) => {
+      const filteredTags = oldTags.filter((tag) => tag.value !== toAdd.value);
+      const newTags = [toAdd, ...filteredTags];
+      setPersistedTags(newTags);
+      return newTags;
+    });
   };
 
   return (
@@ -65,24 +97,21 @@ const AddTask = ({ onTagFilterChange, tagFilterValues }) => {
           {tagNames.map((tag) => (
             <button
               type='button'
-              id={tag}
-              value={tag}
-              onClick={(e) => {
-                onTagFilterChange(e.target.value);
-              }}
-              className={`flex items-center border border-primary-700 text-text-200 p-1 px-2 rounded-xl text-sm font-medium focus:outline-none hover:bg-primary-700 ${
-                tagFilterValues.includes(tag) ? 'bg-primary-700' : ''
+              value={JSON.stringify(tag)}
+              onClick={(e) => handelTagFilterChange(e)}
+              className={`flex items-center border border-primary-700 text-text-200 p-1 px-2 rounded-xl text-sm font-medium focus:outline-none ${
+                tag.show ? 'bg-primary-700' : ''
               }`}
-              key={tag}
+              key={tag.label}
             >
-              {tag}
-              {/* {tagFilterValues.includes(tag) ? (
+              {tag.label}
+              {tag.show ? (
                 <i value={tag} className='ml-1'>
                   <CancelIcon fontSize='small' />
                 </i>
               ) : (
                 ''
-              )} */}
+              )}
             </button>
           ))}
         </div>
@@ -105,28 +134,13 @@ const AddTask = ({ onTagFilterChange, tagFilterValues }) => {
           />
         </div>
         <div className='flex flex-row space-x-1'>
-          <Multiselect
+          <CreatableSelect
+            isMulti
+            styles={customStyles}
+            className='w-full'
+            value={selectedTag}
+            onChange={handleTagChange}
             options={tagNames}
-            selectedValues={selectedTag}
-            ref={multiselectRef}
-            onSelect={(list) => setSelectedTag(list)}
-            onRemove={(list) => setSelectedTag(list)}
-            isObject={false}
-            hidePlaceholder
-            placeholder='Add tags'
-            avoidHighlightFirstOption
-            style={{
-              optionContainer: {
-                background: '#52525B',
-                color: '#F4F4F5',
-                borderColor: '#4F46E5',
-              },
-              chips: { background: '#4F46E5' },
-              // searchBox: { borderColor: '#4F46E5', width: 'auto' },
-              inputField: {
-                margin: '0px',
-              },
-            }}
           />
         </div>
         <div className='flex flex-row justify-between items-center  mt-2 '>

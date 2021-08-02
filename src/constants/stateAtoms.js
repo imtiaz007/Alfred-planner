@@ -2,8 +2,12 @@ import { atom } from 'recoil';
 
 const allTagsState = atom({
   key: '_ALL_TAGS',
-  default: ['Work', 'Personal', 'Home'],
+  default: [],
 });
+
+// { value: 'work', label: 'work', show: true },
+// { value: 'personal', label: 'personal' },
+// { value: 'home', label: 'home' },
 
 const notesState = atom({
   key: '_NOTES',

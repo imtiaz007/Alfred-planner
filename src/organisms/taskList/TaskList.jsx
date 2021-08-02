@@ -2,33 +2,38 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
-import { tasksState } from 'src/constants/stateAtoms.js';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { allTagsState, tasksState } from 'src/constants/stateAtoms.js';
 import useLocalStorage from 'src/hooks/useLocalStorage';
 import TaskCard from 'src/organisms/taskcard/TaskCard.jsx';
 import { ReactComponent as AllDoneSvg } from 'src/assets/allDone.svg';
 import { ReactComponent as TodoSvg } from 'src/assets/todo.svg';
 import { sub, add } from 'date-fns';
 
-const TaskList = ({ dateFilterValue, tagFilterValues }) => {
+const TaskList = ({ dateFilterValue }) => {
   const [allTasks, setAllTasks] = useRecoilState(tasksState);
-  const [tasks, setTasks] = React.useState(allTasks);
+  const [allTags, setTags] = useRecoilState(allTagsState);
   const [persistedTasksList] = useLocalStorage('tasks', []);
-  console.log({ tagFilterValues });
+  const [persistedTags] = useLocalStorage('tags', []);
+  const [tasks, setTasks] = React.useState(allTasks);
 
   useEffect(() => {
     setAllTasks(persistedTasksList);
+    setTags(persistedTags);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     const today = new Date();
+    const tagFilterValues = allTags
+      .filter((tag) => tag.show)
+      .map((tag) => tag.value);
     if (dateFilterValue === 'today') {
       const withDateFilter = allTasks.filter(
         (task) => new Date(task.date).getDate() === today.getDate()
       );
       const withTagFilter = withDateFilter.filter(({ tags }) =>
-        tags.some((val) => tagFilterValues.includes(val))
+        tags.some((val) => tagFilterValues.includes(val.label))
       );
       setTasks(withTagFilter);
     } else if (dateFilterValue === 'yesterday') {
@@ -37,7 +42,7 @@ const TaskList = ({ dateFilterValue, tagFilterValues }) => {
         (task) => new Date(task.date).getDate() === yesterday.getDate()
       );
       const withTagFilter = withDateFilter.filter(({ tags }) =>
-        tags.some((val) => tagFilterValues.includes(val))
+        tags.some((val) => tagFilterValues.includes(val.label))
       );
 
       setTasks(withTagFilter);
@@ -47,12 +52,12 @@ const TaskList = ({ dateFilterValue, tagFilterValues }) => {
         (task) => new Date(task.date).getDate() === tomorrow.getDate()
       );
       const withTagFilter = withDateFilter.filter(({ tags }) =>
-        tags.some((val) => tagFilterValues.includes(val))
+        tags.some((val) => tagFilterValues.includes(val.label))
       );
 
       setTasks(withTagFilter);
     }
-  }, [dateFilterValue, tagFilterValues, allTasks]);
+  }, [dateFilterValue, allTags, allTasks]);
 
   const completedTasks = tasks.filter((task) => task.isCompleted);
   const inCompleteTasks = tasks.filter((task) => !task.isCompleted);

@@ -1,25 +1,33 @@
 import React, { useEffect } from 'react';
 import NoteCard from 'src/organisms/notecard';
-import { notesState } from 'src/constants/stateAtoms';
+import { allTagsState, notesState } from 'src/constants/stateAtoms';
 import { useRecoilState } from 'recoil';
 import useLocalStorage from 'src/hooks/useLocalStorage';
 import { ReactComponent as AddNoteSvg } from 'src/assets/addNote.svg';
 
-const NotesList = ({ tagFilterValues }) => {
+const NotesList = () => {
   const [allNotes, setAllNotes] = useRecoilState(notesState);
-  const [notes, setNotes] = React.useState(allNotes);
+  const [allTags, setTags] = useRecoilState(allTagsState);
   const [persistedNotesList] = useLocalStorage('notes', []);
+  const [persistedTags] = useLocalStorage('tags', []);
+  const [notes, setNotes] = React.useState(allNotes);
+
   useEffect(() => {
     setAllNotes(persistedNotesList);
+    setTags(persistedTags);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
+    const tagFilterValues = allTags
+      .filter((tag) => tag.show)
+      .map((tag) => tag.value);
+
     const withTagFilter = allNotes.filter(({ tags }) =>
-      tags.some((val) => tagFilterValues.includes(val))
+      tags.some((val) => tagFilterValues.includes(val.label))
     );
     setNotes(withTagFilter);
-  }, [tagFilterValues, allNotes]);
+  }, [allTags, allNotes]);
 
   return (
     <>
