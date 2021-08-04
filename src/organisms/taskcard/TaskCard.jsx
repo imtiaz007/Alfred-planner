@@ -38,7 +38,7 @@ const TaskCard = (props) => {
   };
 
   return (
-    <div className='flex flex-col space-y-1 rounded-md shadow-md my-5 px-2 py-2 '>
+    <div className='flex flex-col w-full space-y-1 rounded-md shadow-md my-5 px-2 py-2 '>
       <div className='flex flex-row'>
         <input
           type='checkbox'

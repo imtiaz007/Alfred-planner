@@ -11,7 +11,10 @@ import {
   PauseCircleOutline as PauseIcon,
   PlayCircleOutline as StartIcon,
 } from '@icons';
+import { useSetRecoilState } from 'recoil';
+import { totalTimeWorked } from 'src/constants/stateAtoms';
 const Timer = (props) => {
+  const setTotalTimeWorked = useSetRecoilState(totalTimeWorked);
   const { msg, time, toastMsg } = props;
   const [timerRunning, setTimerRunning] = React.useState(false);
   const [timerKey, setTimerKey] = React.useState(0);
@@ -31,6 +34,7 @@ const Timer = (props) => {
     });
     setTimerKey(timerKey + 1);
     setTimerRunning(false);
+    setTotalTimeWorked((oldTime) => oldTime + time);
     return [false, 1000];
   };
 

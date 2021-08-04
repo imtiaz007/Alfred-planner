@@ -34,6 +34,11 @@ const longBreakTimeState = atom({
   default: 1200,
 });
 
+const totalTimeWorked = atom({
+  key: '_TOTAL_TIME_WORKED',
+  default: 0,
+});
+
 export {
   allTagsState,
   notesState,
@@ -41,4 +46,5 @@ export {
   workTimeState,
   shortBreakTimeState,
   longBreakTimeState,
+  totalTimeWorked,
 };

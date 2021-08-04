@@ -64,7 +64,7 @@ const TaskList = ({ dateFilterValue }) => {
 
   if (tasks.length === 0) {
     return (
-      <div className='flex flex-col items-center'>
+      <div className='flex flex-col items-center '>
         <p className='text-text-100 font-thin text-xl'>Add some tasks!</p>
         <TodoSvg className='w-full h-1/4 px-10 mt-5' />
       </div>
@@ -72,7 +72,7 @@ const TaskList = ({ dateFilterValue }) => {
   }
 
   return (
-    <div className='px-5'>
+    <div className='flex flex-col w-full items-center'>
       {inCompleteTasks.length !== 0 ? (
         inCompleteTasks.map((task) => (
           <TaskCard
